@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { PokeAPIResponse, SimplePokemon } from '../interfaces';
+import { PokemonDetailAPIResponse, PokemonListAPIResponse, SimplePokemon } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -9,13 +9,15 @@ import { PokeAPIResponse, SimplePokemon } from '../interfaces';
 export class Pokemons {
   private http = inject(HttpClient);
 
-  public loadPage(page: number): Observable<SimplePokemon[]> {
+  public getPage(page: number): Observable<SimplePokemon[]> {
     // 1 = 0
     if (page !== 0) --page;
     page = Math.max(0, page);
 
     return this.http
-      .get<PokeAPIResponse>(`https://pokeapi.co/api/v2/pokemon/?offset=${page * 20}&limit=20`)
+      .get<PokemonListAPIResponse>(
+        `https://pokeapi.co/api/v2/pokemon/?offset=${page * 20}&limit=20`,
+      )
       .pipe(
         map((resp) => {
           const simplePokemons = resp.results.map((pokemon) => ({
@@ -26,5 +28,9 @@ export class Pokemons {
           return simplePokemons;
         }),
       );
+  }
+
+  public getPokemon(id: string) {
+    return this.http.get<PokemonDetailAPIResponse>(`https://pokeapi.co/api/v2/pokemon/${id}`);
   }
 }

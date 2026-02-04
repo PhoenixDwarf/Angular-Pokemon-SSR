@@ -14,11 +14,15 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/contact/contact-page'),
   },
   {
-    path: 'pokemons',
-    loadComponent: () => import('./pages/pokemons/pokemons-page'),
+    path: 'pokemons-grid',
+    loadComponent: () => import('./pages/pokemon-grid/pokemons-grid-page'),
+  },
+  {
+    path: 'pokemon-detail/:id',
+    loadComponent: () => import('./pages/pokemon-detail/pokemon-detail-page'),
   },
   {
     path: '**',
-    redirectTo: 'pokemons',
+    redirectTo: 'pokemons-grid',
   },
 ];

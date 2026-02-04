@@ -10,12 +10,12 @@ import { SimplePokemon } from '../../pokemons/interfaces';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'pokemons-page',
+  selector: 'pokemons-grid-page',
   imports: [PokemonList, PokemonListSkeleton],
-  templateUrl: './pokemons-page.html',
+  templateUrl: './pokemons-grid-page.html',
   styles: ``,
 })
-export default class PokemonsPage implements OnInit, OnDestroy {
+export default class PokemonsGridPage implements OnInit, OnDestroy {
   private pokemonService = inject(Pokemons);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -52,10 +52,10 @@ export default class PokemonsPage implements OnInit, OnDestroy {
     if (this.currentPage() === 1 && page === -1) return;
 
     this.pokemonService
-      .loadPage(pageToLoad)
+      .getPage(pageToLoad)
       .pipe(
         tap(() => this.router.navigate([], { queryParams: { page: pageToLoad } })),
-        tap(() => this.title.setTitle(`Pokemon List - Page ${pageToLoad}`)),
+        tap(() => this.title.setTitle(`Pokemons Grid - Page ${pageToLoad}`)),
       )
       .subscribe({ next: this.pokemons.set });
   }
