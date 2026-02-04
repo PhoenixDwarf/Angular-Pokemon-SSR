@@ -15,11 +15,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: () => {
-      // This is just a reminder that we can pass a function with custom logic as well
-      // const authService = inject(AuthService);
-      // Some logic here
-      return 'about';
-    },
+    redirectTo: 'about',
   },
 ];
