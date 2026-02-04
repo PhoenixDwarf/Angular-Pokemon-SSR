@@ -1,8 +1,21 @@
 <h1 class="text-3xl">Pokemon List</h1>
 <h2 class="text-xl">Current page</h2>
 
-<hr class="my-2" />
+<hr class="my-6" />
+
+@if (true) {
+  <pokemon-list />
+} @else {
+  <pokemon-list-skeleton />
+}
+
 <!--
-TODO - Pokemon list
 TODO - Pokemon list skeleton
-TODO - Buttons to load next and prev -->
+TODO - Buttons to load next and prev
+-->
+
+<div class="flex justify-between mt-6">
+  <button>Prev</button>
+
+  <button>Next</button>
+</div>
