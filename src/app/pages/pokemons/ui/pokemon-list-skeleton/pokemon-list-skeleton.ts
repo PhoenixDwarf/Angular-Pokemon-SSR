@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './pokemon-list-skeleton.html',
   styles: ``,
 })
-export class PokemonListSkeleton {}
+export class PokemonListSkeleton {
+  placeholders = Array(20);
+}

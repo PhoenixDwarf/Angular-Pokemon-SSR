@@ -1,7 +1,8 @@
 import { ApplicationRef, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { PokemonList } from '../../pokemons/components/pokemon-list/pokemon-list';
 import { PokemonListSkeleton } from './ui/pokemon-list-skeleton/pokemon-list-skeleton';
-import { PokemonsService } from '../../pokemons/services/pokemons';
+import { Pokemons } from '../../pokemons/services/pokemons';
+import { SimplePokemon } from '../../pokemons/interfaces';
 
 @Component({
   selector: 'pokemons-page',
@@ -10,7 +11,8 @@ import { PokemonsService } from '../../pokemons/services/pokemons';
   styles: ``,
 })
 export default class PokemonsPage implements OnInit, OnDestroy {
-  private pokemonService = inject(PokemonsService);
+  private pokemonService = inject(Pokemons);
+  public pokemons = signal<SimplePokemon[]>([]);
   // public loading = signal(true);
   // private appRef = inject(ApplicationRef);
 
@@ -27,7 +29,7 @@ export default class PokemonsPage implements OnInit, OnDestroy {
 
   public loadPokemons(page = 0) {
     this.pokemonService.loadPage(page).subscribe({
-      next: (resp) => console.log('On init'),
+      next: this.pokemons.set,
     });
   }
 }

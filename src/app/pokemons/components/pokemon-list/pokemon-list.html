@@ -1,6 +1,6 @@
 <div class="gap-3 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5">
-  @for (pokemon of '1234567890'; track $index) {
-    <pokemon-card />
+  @for (pokemon of pokemons(); track pokemon.id) {
+    <pokemon-card [pokemon]="pokemon" />
   } @empty {
     <div class="col-span-5 text-center border-white h-28 flex justify-center items-center">
       There are no pokemons

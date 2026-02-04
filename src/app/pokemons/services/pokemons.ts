@@ -1,15 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { PokeAPIResponse, SimplePokemon } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PokemonsService {
+export class Pokemons {
   private http = inject(HttpClient);
-
-  constructor() {}
 
   public loadPage(page: number): Observable<SimplePokemon[]> {
     // 1 = 0
@@ -27,7 +25,6 @@ export class PokemonsService {
 
           return simplePokemons;
         }),
-        tap(console.log),
       );
   }
 }
