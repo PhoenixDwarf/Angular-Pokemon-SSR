@@ -49,6 +49,7 @@ export default class PokemonsPage implements OnInit, OnDestroy {
 
   public loadPokemons(page = 0) {
     const pageToLoad = this.currentPage()! + page;
+    if (this.currentPage() === 1 && page === -1) return;
 
     this.pokemonService
       .loadPage(pageToLoad)

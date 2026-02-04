@@ -15,7 +15,13 @@ TODO - Buttons to load next and prev
 -->
 
 <div class="flex justify-between mt-6">
-  <button class="cursor-pointer" (click)="loadPokemons(-1)">Prev</button>
+  <button
+    class="not-disabled:cursor-pointer"
+    [disabled]="this.currentPage() === 1"
+    (click)="loadPokemons(-1)"
+  >
+    Prev
+  </button>
 
-  <button class="cursor-pointer" (click)="loadPokemons(+1)">Next</button>
+  <button class="not-disabled:cursor-pointer" (click)="loadPokemons(+1)">Next</button>
 </div>
