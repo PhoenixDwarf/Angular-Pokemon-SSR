@@ -54,7 +54,11 @@ export default class PokemonsGridPage implements OnInit, OnDestroy {
     this.pokemonService
       .getPage(pageToLoad)
       .pipe(
-        tap(() => this.router.navigate([], { queryParams: { page: pageToLoad } })),
+        tap(() => {
+          if (this.currentPage() !== pageToLoad) {
+            this.router.navigate([], { queryParams: { page: pageToLoad } });
+          }
+        }),
         tap(() => this.title.setTitle(`Pokemons Grid - Page ${pageToLoad}`)),
       )
       .subscribe({ next: this.pokemons.set });
