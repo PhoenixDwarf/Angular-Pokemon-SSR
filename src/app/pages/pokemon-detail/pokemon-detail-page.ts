@@ -1,8 +1,7 @@
-import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { PokemonDetailAPIResponse } from '../../pokemons/interfaces';
 import { Pokemons } from '../../pokemons/services/pokemons';
 import { ActivatedRoute, Router } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
 import { tap } from 'rxjs';
 import { Meta, Title } from '@angular/platform-browser';
 
@@ -16,21 +15,13 @@ export default class PokemonDetailPage implements OnInit {
   private pokemonService = inject(Pokemons);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private platform = inject(PLATFORM_ID);
   private title = inject(Title);
   private meta = inject(Meta);
 
   public pokemon = signal<PokemonDetailAPIResponse | null>(null);
 
   ngOnInit(): void {
-    const idParam = +(this.route.snapshot.paramMap.get('id') ?? '');
-    if (isNaN(idParam) || idParam < 1) {
-      if (isPlatformBrowser(this.platform)) {
-        alert('Wrong pokemon ID');
-        this.router.navigate(['/']);
-      }
-      return;
-    }
+    const idParam = this.route.snapshot.paramMap.get('id') ?? '';
 
     this.pokemonService
       .getPokemon(idParam)
@@ -49,6 +40,9 @@ export default class PokemonDetailPage implements OnInit {
           });
         }),
       )
-      .subscribe(this.pokemon.set);
+      .subscribe({
+        next: this.pokemon.set,
+        error: async () => this.router.navigate(['/pokemons-grid/page/1']),
+      });
   }
 }

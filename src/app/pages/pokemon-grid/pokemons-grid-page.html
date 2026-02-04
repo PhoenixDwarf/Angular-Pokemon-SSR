@@ -18,10 +18,15 @@ TODO - Buttons to load next and prev
   <button
     class="not-disabled:cursor-pointer"
     [disabled]="this.currentPage() === 1"
-    (click)="loadPokemons(-1)"
+    [routerLink]="['/pokemons-grid/page', currentPage() - 1]"
   >
     Prev
   </button>
 
-  <button class="not-disabled:cursor-pointer" (click)="loadPokemons(+1)">Next</button>
+  <button
+    class="not-disabled:cursor-pointer"
+    [routerLink]="['/pokemons-grid/page', currentPage() + 1]"
+  >
+    Next
+  </button>
 </div>

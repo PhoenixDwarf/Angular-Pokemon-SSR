@@ -14,7 +14,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/contact/contact-page'),
   },
   {
-    path: 'pokemons-grid',
+    path: 'pokemons-grid/page/:page',
     loadComponent: () => import('./pages/pokemon-grid/pokemons-grid-page'),
   },
   {
@@ -23,6 +23,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'pokemons-grid',
+    redirectTo: 'pokemons-grid/page/1',
   },
 ];
