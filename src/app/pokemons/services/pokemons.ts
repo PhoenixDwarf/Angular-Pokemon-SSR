@@ -30,7 +30,7 @@ export class Pokemons {
       );
   }
 
-  public getPokemon(id: string) {
+  public getPokemon(id: number) {
     return this.http.get<PokemonDetailAPIResponse>(`https://pokeapi.co/api/v2/pokemon/${id}`);
   }
 }
