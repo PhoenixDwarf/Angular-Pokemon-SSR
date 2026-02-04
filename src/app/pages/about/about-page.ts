@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'about-page',
@@ -6,4 +7,14 @@ import { Component } from '@angular/core';
   templateUrl: './about-page.html',
   styles: ``,
 })
-export default class AboutPage {}
+export default class AboutPage implements OnInit {
+  private title = inject(Title);
+  private meta = inject(Meta);
+
+  ngOnInit(): void {
+    this.title.setTitle('About Page');
+    this.meta.updateTag({ name: 'description', content: 'This is my about page' });
+    this.meta.updateTag({ name: 'og:title', content: 'About Page' });
+    this.meta.updateTag({ name: 'keywords', content: 'About, Page, SSR' });
+  }
+}
