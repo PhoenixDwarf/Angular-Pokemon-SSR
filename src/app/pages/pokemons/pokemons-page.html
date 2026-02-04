@@ -1,5 +1,5 @@
 <h1 class="text-3xl">Pokemon List</h1>
-<h2 class="text-xl">Current page</h2>
+<h2 class="text-xl">Current page: {{ currentPage() }}</h2>
 
 <hr class="my-6" />
 
@@ -15,7 +15,7 @@ TODO - Buttons to load next and prev
 -->
 
 <div class="flex justify-between mt-6">
-  <button>Prev</button>
+  <button class="cursor-pointer" (click)="loadPokemons(-1)">Prev</button>
 
-  <button>Next</button>
+  <button class="cursor-pointer" (click)="loadPokemons(+1)">Next</button>
 </div>
