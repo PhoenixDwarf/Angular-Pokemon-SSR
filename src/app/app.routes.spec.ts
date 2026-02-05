@@ -1,43 +1,77 @@
 import { Location } from '@angular/common';
+import { provideRouter, Router } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
+
 import { routes } from './app.routes';
-import { Router } from '@angular/router';
+import AboutPage from './pages/about/about-page';
+import PricingPage from './pages/pricing/pricing-page';
+import PokemonsGridPage from './pages/pokemon-grid/pokemons-grid-page';
 
 describe('App Routes', () => {
   let location: Location;
   let router: Router;
 
-  beforeEach(() => {});
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [provideRouter(routes)],
+    });
+
+    router = TestBed.inject(Router);
+    location = TestBed.inject(Location);
+  });
 
   it('should be defined', () => {
     expect(routes).toBeDefined();
-    // expect(routes.length).toBe(6);
   });
 
   it('should contain all defined routes', () => {
-    // todo:
+    expect(routes.length).toBe(6);
   });
 
-  it('should render AboutPageComponent when path is /about', async () => {
-    // todo:
+  it('should render AboutPage when path is /about', async () => {
+    const route = routes.find((route) => route.path === 'about');
+
+    expect(route).toBeDefined();
+
+    const component = (await route!.loadComponent!()) as any;
+
+    expect(component.default).toBe(AboutPage);
   });
 
-  it('should navigate to "/about" and render AboutPageComponent', async () => {
-    // todo:
+  it('should navigate to "/pokemons-grid/page/1" when default path is set', async () => {
+    await router.navigate(['/']);
+
+    expect(location.path()).toBe('/pokemons-grid/page/1');
   });
 
-  it('should render PricingPageComponent when path is /pricing', async () => {
-    // todo:
+  it('should render PricingPage when path is /pricing', async () => {
+    const route = routes.find((route) => route.path === 'pricing');
+
+    expect(route).toBeDefined();
+
+    const component = (await route!.loadComponent!()) as any;
+
+    expect(component.default).toBe(PricingPage);
   });
 
-  it('should navigate to "/pokemons/page/1" and render PokemonsPageComponent', async () => {
-    // todo:
+  it('should navigate to "/pokemons-grid/page/1"', async () => {
+    await router.navigate(['/pokemons-grid/page/1']);
+    expect(location.path()).toBe('/pokemons-grid/page/1');
   });
 
-  it('should render PokemonsPageComponent when path is /pokemons/page/:page', async () => {
-    // todo:
+  it('should render PokemonsGridPage when path is /pokemons-grid/page/:page', async () => {
+    const route = routes.find((route) => route.path === 'pokemons-grid/page/:page');
+
+    expect(route).toBeDefined();
+
+    const component = (await route!.loadComponent!()) as any;
+
+    expect(component.default).toBe(PokemonsGridPage);
   });
 
-  it('should redirect to /about when path is unknown', async () => {
-    // todo:
+  it('should redirect to /pokemons-grid/page/1 when path is unknown', async () => {
+    await router.navigate(['/234tedgdfge4rt45d']);
+
+    expect(location.path()).toBe('/pokemons-grid/page/1');
   });
 });

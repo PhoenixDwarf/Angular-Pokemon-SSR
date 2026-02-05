@@ -85,7 +85,7 @@ describe('App', () => {
 
   it('should match snapshot', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    console.log(compiled.innerHTML);
+    // console.log(compiled.innerHTML);
 
     expect(compiled.innerHTML).toMatchSnapshot();
   });
