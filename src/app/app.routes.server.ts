@@ -1,4 +1,5 @@
 import { RenderMode, ServerRoute, PrerenderFallback } from '@angular/ssr';
+import { PokemonListAPIResponse } from './pokemons/interfaces';
 
 export const serverRoutes: ServerRoute[] = [
   {
@@ -8,9 +9,27 @@ export const serverRoutes: ServerRoute[] = [
     // Server rendering takes over will correctly render the page
     fallback: PrerenderFallback.Server,
     // Here we add a function to prerender 20 pages on build time since we are using SSG
-    getPrerenderParams: async () => {
-      // Generate ids from 1 to 20
-      return Array.from({ length: 20 }, (_, i) => ({ id: (i + 1).toString() }));
+    async getPrerenderParams() {
+      // Fetch pokeAPi to gather first 60 results
+      const apiResp: PokemonListAPIResponse = await fetch(
+        'https://pokeapi.co/api/v2/pokemon?limit=60',
+      ).then((resp) => resp.json());
+      // Map the results array to return a valid array with the mapped name in the id property
+      return apiResp.results.map((pokemon) => ({ id: pokemon.name }));
+
+      // Another way to do it:
+      // return Array.from({ length: apiResp.results.length }, (_, i) => ({
+      //   id: apiResp.results[i].name,
+      // }));
+    },
+  },
+  {
+    path: 'pokemons-grid/page/:page',
+    renderMode: RenderMode.Prerender,
+    fallback: PrerenderFallback.Server,
+
+    async getPrerenderParams() {
+      return Array.from({ length: 20 }, (_, i) => ({ page: (i + 1).toString() }));
     },
   },
   {
