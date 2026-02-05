@@ -37,7 +37,10 @@ describe('PokemonsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        // provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     });
     service = TestBed.inject(Pokemons);
     httpMock = TestBed.inject(HttpTestingController);
@@ -108,6 +111,20 @@ describe('PokemonsService', () => {
   });
 
   it('should catch error if API fails', () => {
-    // todo:
+    service.getPokemon('bulbasaur').subscribe({
+      next: (pokemon) => {
+        // This should never happen
+        throw new Error('Should have failed with 404 error');
+      },
+      error: (error) => {
+        expect(error.status).toBe(404);
+        expect(error.statusText).toBe('Not found - Pokemon not found');
+      },
+    });
+
+    const req = httpMock.expectOne(`https://pokeapi.co/api/v2/pokemon/bulbasaur`);
+
+    req.flush('404 error', { status: 404, statusText: 'Not found - Pokemon not found' });
+    // expect(req.request.method).toBe('GET');
   });
 });
