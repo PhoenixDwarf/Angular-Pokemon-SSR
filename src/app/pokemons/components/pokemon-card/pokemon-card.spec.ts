@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PokemonCard } from './pokemon-card';
-import { provideRouter } from '@angular/router';
+import { provideRouter, RouterLink } from '@angular/router';
 import { SimplePokemon } from '../../interfaces';
+import { By } from '@angular/platform-browser';
 
 const mockPokemon: SimplePokemon = {
   id: '1',
@@ -43,5 +44,28 @@ describe('PokemonCard', () => {
     const expectedURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${mockPokemon.id}.png`;
 
     expect(component.image()).toBe(expectedURL);
+  });
+
+  it('Should render pokemon name and image correctly', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const nameElement = compiled.querySelector('h1');
+    const imgElement = compiled.querySelector('img');
+    const expectedURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${mockPokemon.id}.png`;
+
+    expect(nameElement?.textContent.trim()).toBe(mockPokemon.name);
+    expect(imgElement?.src).toBe(expectedURL);
+    expect(imgElement?.alt).toBe(mockPokemon.name);
+  });
+
+  it('Should have the correct routerLink cofiguration', () => {
+    /**
+     * Verifies the RouterLink binding points to the expected detail route for the mock Pokémon,
+     * ensuring the generated URL matches `/pokemon-detail/${mockPokemon.name}`.
+     */
+    const debugElement = fixture.debugElement.query(By.directive(RouterLink));
+    const routerLinkInstance = debugElement.injector.get(RouterLink);
+    const expectedUrl = `/pokemon-detail/${mockPokemon.name}`;
+
+    expect(routerLinkInstance.urlTree?.toString()).toBe(expectedUrl);
   });
 });
